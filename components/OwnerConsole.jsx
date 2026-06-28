@@ -476,22 +476,30 @@ function Schedule({ store, grounds, data, schDateISO, setSchDateISO, findCoverin
       </div>
       {grounds.map((g) => {
         const cnt = { open: 0, booked: 0, closed: 0 };
-        const row1 = buildRow(g, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], cnt);
-        const row2 = buildRow(g, [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], cnt);
+        const GROUPS = [
+          { label: 'Morning · 6 AM – 12 PM',   hours: [6,7,8,9,10,11] },
+          { label: 'Afternoon · 12 – 6 PM',     hours: [12,13,14,15,16,17] },
+          { label: 'Evening · 6 – 12 PM',       hours: [18,19,20,21,22,23] },
+          { label: 'Late night · 12 – 6 AM',    hours: [0,1,2,3,4,5] },
+        ];
+        const allRows = GROUPS.map((grp) => ({ ...grp, cells: buildRow(g, grp.hours, cnt) }));
         return (
           <div key={g.id} style={css('background:var(--surface); border:1px solid var(--line); border-radius:20px; box-shadow:0 10px 26px -18px var(--shadow); padding:18px 20px; margin-bottom:16px;')}>
-            <div style={css('display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;')}>
+            <div style={css('display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:8px;')}>
               <div style={css('display:flex; align-items:center; gap:10px;')}><span style={{ ...css('width:10px; height:10px; border-radius:50%;'), background: TYPE_COLOR[g.type] || '#15a34a' }} /><span style={css('font-family:Outfit; font-weight:800; font-size:15px;')}>{g.name}</span><span style={css('font-size:11.5px; font-weight:700; color:var(--muted);')}>{fmt(g.priceN)}/hr</span></div>
               <div style={css('font-size:11.5px; font-weight:700; color:var(--muted);')}>{cnt.open} open · {cnt.booked} booked · {cnt.closed} closed</div>
             </div>
-            {[row1, row2].map((row, ri) => (
-              <div key={ri} style={css('display:grid; grid-template-columns:repeat(12,1fr); gap:7px; margin-bottom:7px;')}>
-                {row.map((c) => (
-                  <button key={c.key} onClick={c.onClick} title={c.title} style={css(c.style)}>
-                    <span style={css('display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;')}>{c.label}</span>
-                    {c.sub && <span style={css('display:block; font-size:9.5px; font-weight:600; opacity:.92; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;')}>{c.sub}</span>}
-                  </button>
-                ))}
+            {allRows.map((grp) => (
+              <div key={grp.label} style={css('margin-bottom:14px;')}>
+                <div style={css('font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); margin-bottom:7px;')}>{grp.label}</div>
+                <div style={css('display:grid; grid-template-columns:repeat(6,1fr); gap:6px;')}>
+                  {grp.cells.map((c) => (
+                    <button key={c.key} onClick={c.onClick} title={c.title} style={css(c.style)}>
+                      <span style={css('display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;')}>{c.label}</span>
+                      {c.sub && <span style={css('display:block; font-size:9px; font-weight:600; opacity:.92; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;')}>{c.sub}</span>}
+                    </button>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
