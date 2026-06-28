@@ -138,7 +138,7 @@ export default function PublicBooking() {
         <>
         {/* HERO */}
         <div style={css('position:relative; width:100%; height:clamp(280px,40vw,460px); overflow:hidden;')}>
-          <img src="/assets/dugout-hero.jpeg" alt="Dugout Turf Arena" style={css('width:100%; height:100%; object-fit:cover; display:block;')} />
+          <img src="/assets/dugout-hero.webp" alt="Dugout Turf Arena" style={css('width:100%; height:100%; object-fit:cover; display:block;')} />
           <div style={css('position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(0,0,0,.6) 100%);')} />
           <div style={css('position:absolute; bottom:0; left:0; right:0; padding:clamp(20px,3vw,36px) clamp(16px,4vw,32px);')}>
             <div style={css('max-width:1080px; margin:0 auto;')}>
