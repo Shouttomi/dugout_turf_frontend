@@ -136,22 +136,21 @@ export default function PublicBooking() {
 
       {screen === 'booking' && (
         <>
-        <div style={css('width:100%; overflow:hidden; max-height:420px;')}>
-          <img src="/assets/dugout-hero.jpeg" alt="Dugout Turf Arena" style={css('width:100%; height:420px; object-fit:cover; display:block;')} />
-        </div>
-        <div style={css('max-width:1080px; margin:0 auto; padding:clamp(20px,3vw,30px) clamp(16px,4vw,32px) 150px;')}>
-          {/* PROFILE */}
-          <div style={css('display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px;')}>
-            <div style={css('flex:1; min-width:200px;')}>
-              <div style={css('display:flex; align-items:center; gap:9px; flex-wrap:wrap;')}>
-                <h1 style={css('font-weight:800; font-size:clamp(24px,3.4vw,32px); letter-spacing:-.025em; margin:0;')}>{BRAND}</h1>
+        {/* HERO */}
+        <div style={css('position:relative; width:100%; height:clamp(280px,40vw,460px); overflow:hidden;')}>
+          <img src="/assets/dugout-hero.jpeg" alt="Dugout Turf Arena" style={css('width:100%; height:100%; object-fit:cover; display:block;')} />
+          <div style={css('position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(0,0,0,.6) 100%);')} />
+          <div style={css('position:absolute; bottom:0; left:0; right:0; padding:clamp(20px,3vw,36px) clamp(16px,4vw,32px);')}>
+            <div style={css('max-width:1080px; margin:0 auto;')}>
+              <div style={css('display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:8px;')}>
+                <h1 style={css('font-weight:800; font-size:clamp(28px,4vw,42px); letter-spacing:-.025em; margin:0; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.4);')}>{BRAND}</h1>
                 <span style={css('display:flex; align-items:center; gap:5px; background:var(--brand); color:#fff; font-weight:700; font-size:11px; padding:5px 10px; border-radius:99px;')}><span style={css('width:6px; height:6px; border-radius:50%; background:var(--lime);')} />Open 24 × 7</span>
               </div>
-              <div style={css('display:flex; align-items:center; gap:9px; margin-top:7px; font-size:13.5px; font-weight:500; color:var(--muted); flex-wrap:wrap;')}>
-                <span>Cricket · Football turf</span>
-              </div>
+              <div style={css('font-size:14px; font-weight:500; color:rgba(255,255,255,.85);')}>Cricket · Football turf</div>
             </div>
           </div>
+        </div>
+        <div style={css('max-width:1080px; margin:0 auto; padding:clamp(20px,3vw,30px) clamp(16px,4vw,32px) 150px;')}>
 
           {/* GALLERY */}
           <div style={css('display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:repeat(2,1fr); gap:10px; height:clamp(240px,36vw,380px); border-radius:14px; overflow:hidden; margin-bottom:24px;')}>
