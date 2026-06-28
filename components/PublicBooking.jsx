@@ -7,7 +7,7 @@ import { useStore } from '@/lib/useStore';
 
 const BRAND = 'Dugout Turf Arena';
 const UPI_ID = 'dugoutturf@upi';
-const WA_NUMBER = '918000986401';
+const WA_NUMBER = '919000000000';
 
 const ROOT_VARS =
   '--bg:#f6f7f4; --surface:#ffffff; --surface-2:#f3f5f1; --brand:#15803d; --brand-deep:#0f5c2e; --brand-soft:#e7f1ea; --lime:#b8e642; --ink:#17211b; --ink-2:#3d4843; --muted:#6b746d; --line:#e3e7e0; --line-2:#d5dad2; --amber:#a55a09; --amber-soft:#fbf1e1; --wa:#1ea861; --shadow-sm:0 1px 2px rgba(18,32,24,.06); --shadow-md:0 8px 24px -14px rgba(18,32,24,.3); min-height:100vh; background:var(--bg); color:var(--ink); font-family:Hanken Grotesk,system-ui,sans-serif; position:relative;';
@@ -70,6 +70,9 @@ export default function PublicBooking() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const todayISO = dates[0].iso;
+  const nowHour = new Date().getHours();
+
   const gid = groundId || (grounds[0] && grounds[0].id);
   const activeG = grounds.find((g) => g.id === gid) || grounds[0] || {};
   const waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent('Hi! I want to book a slot at ' + BRAND);
@@ -121,7 +124,9 @@ export default function PublicBooking() {
       <nav style={css('position:sticky; top:0; z-index:60; background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);')}>
         <div style={css('max-width:1080px; margin:0 auto; padding:0 clamp(16px,4vw,32px); height:62px; display:flex; align-items:center; justify-content:space-between; gap:16px;')}>
           <div style={css('display:flex; align-items:center; gap:11px;')}>
-            <img src="/assets/dugout-logo.png" alt="Dugout Turf Arena" style={css('width:36px; height:36px; border-radius:9px; object-fit:contain;')} />
+            <div style={css('width:36px; height:36px; border-radius:9px; background:var(--brand); display:flex; align-items:center; justify-content:center;')}>
+              <Raw html='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8e642" stroke-width="2.3"><path d="M4 19V8a8 8 0 0 1 16 0v11"/><path d="M2 19h20" stroke-linecap="round"/></svg>' />
+            </div>
             <div style={{ lineHeight: 1 }}>
               <div style={css('font-weight:800; font-size:16.5px; letter-spacing:-.02em;')}>{BRAND}</div>
               <div style={css('font-size:10.5px; font-weight:700; color:var(--brand-deep); margin-top:2px;')}>Open 24 × 7</div>
@@ -135,22 +140,21 @@ export default function PublicBooking() {
       </nav>
 
       {screen === 'booking' && (
-        <>
-        {/* HERO */}
-        <div style={css('position:relative; width:100%; height:clamp(280px,40vw,460px); overflow:hidden;')}>
-          <img src="/assets/dugout-hero.webp" alt="Dugout Turf Arena" style={css('width:100%; height:100%; object-fit:cover; display:block;')} />
-          <div style={css('position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(0,0,0,.6) 100%);')} />
-          <div style={css('position:absolute; bottom:0; left:0; right:0; padding:clamp(20px,3vw,36px) clamp(16px,4vw,32px);')}>
-            <div style={css('max-width:1080px; margin:0 auto;')}>
-              <div style={css('display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:8px;')}>
-                <h1 style={css('font-weight:800; font-size:clamp(28px,4vw,42px); letter-spacing:-.025em; margin:0; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.4);')}>{BRAND}</h1>
+        <div style={css('max-width:1080px; margin:0 auto; padding:clamp(20px,3vw,30px) clamp(16px,4vw,32px) 150px;')}>
+          {/* PROFILE */}
+          <div style={css('display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px;')}>
+            <div style={css('flex:1; min-width:200px;')}>
+              <div style={css('display:flex; align-items:center; gap:9px; flex-wrap:wrap;')}>
+                <h1 style={css('font-weight:800; font-size:clamp(24px,3.4vw,32px); letter-spacing:-.025em; margin:0;')}>{BRAND}</h1>
                 <span style={css('display:flex; align-items:center; gap:5px; background:var(--brand); color:#fff; font-weight:700; font-size:11px; padding:5px 10px; border-radius:99px;')}><span style={css('width:6px; height:6px; border-radius:50%; background:var(--lime);')} />Open 24 × 7</span>
               </div>
-              <div style={css('font-size:14px; font-weight:500; color:rgba(255,255,255,.85);')}>Cricket · Football turf</div>
+              <div style={css('display:flex; align-items:center; gap:9px; margin-top:7px; font-size:13.5px; font-weight:500; color:var(--muted); flex-wrap:wrap;')}>
+                <span>Cricket · Football turf</span>
+                <span style={css('color:var(--line-2);')}>·</span>
+                <span style={css('color:var(--ink-2); font-weight:600;')}>The Box Hitting Challenge · 666 &amp; 1 hour free</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div style={css('max-width:1080px; margin:0 auto; padding:clamp(20px,3vw,30px) clamp(16px,4vw,32px) 150px;')}>
 
           {/* GALLERY */}
           <div style={css('display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:repeat(2,1fr); gap:10px; height:clamp(240px,36vw,380px); border-radius:14px; overflow:hidden; margin-bottom:24px;')}>
@@ -242,13 +246,17 @@ export default function PublicBooking() {
                   <div style={css('font-size:12px; font-weight:600; color:var(--muted); margin-bottom:8px;')}>{grp.label}</div>
                   <div style={css('display:grid; grid-template-columns:repeat(3,1fr); gap:7px;')}>
                     {Array.from({ length: grp.r[1] - grp.r[0] + 1 }, (_, k) => grp.r[0] + k).map((h) => {
-                      const avail = store.isAvailable(gid, dateISO, h);
-                      const picked = selSet.has(h);
+                      // Late-night hours (0-5) are tonight's upcoming slots when it's currently daytime/evening.
+      // Only mark them past when we're in the late-night window (nowHour <= 5).
+      const isPast = dateISO === todayISO && h < nowHour && (nowHour <= 5 || h >= 6);
+                      const avail = !isPast && store.isAvailable(gid, dateISO, h);
+                      const picked = selSet.has(h) && !isPast;
                       let st = 'cursor:pointer; padding:9px 4px; border-radius:8px; font-family:inherit; font-weight:600; font-size:12px; border:1px solid var(--line-2);';
-                      if (!avail) st = 'padding:9px 4px; border-radius:8px; font-family:inherit; font-weight:500; font-size:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--line-2); cursor:not-allowed; text-decoration:line-through;';
+                      if (isPast) st = 'padding:9px 4px; border-radius:8px; font-family:inherit; font-weight:500; font-size:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--line-2); cursor:not-allowed; opacity:.45;';
+                      else if (!avail) st = 'padding:9px 4px; border-radius:8px; font-family:inherit; font-weight:500; font-size:12px; border:1px solid var(--line); background:var(--surface-2); color:var(--line-2); cursor:not-allowed; text-decoration:line-through;';
                       else if (picked) st += ' background:var(--brand); color:#fff; border-color:var(--brand);';
                       else st += ' background:var(--surface); color:var(--ink);';
-                      return <button key={h} onClick={() => avail ? toggleSlot(h) : flash('That slot is already taken')} style={css(st)}>{hourLabel(h)}</button>;
+                      return <button key={h} onClick={() => isPast ? flash('That time has already passed') : avail ? toggleSlot(h) : flash('That slot is already taken')} style={css(st)}>{hourLabel(h)}</button>;
                     })}
                   </div>
                 </div>
@@ -265,7 +273,6 @@ export default function PublicBooking() {
             </div>
           )}
         </div>
-        </>
       )}
 
       {screen === 'checkout' && (
