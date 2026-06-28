@@ -7,7 +7,7 @@ import { useStore } from '@/lib/useStore';
 
 const BRAND = 'Dugout Turf Arena';
 const UPI_ID = 'dugoutturf@upi';
-const WA_NUMBER = '919000000000';
+const WA_NUMBER = '918000986401';
 
 const ROOT_VARS =
   '--bg:#f6f7f4; --surface:#ffffff; --surface-2:#f3f5f1; --brand:#15803d; --brand-deep:#0f5c2e; --brand-soft:#e7f1ea; --lime:#b8e642; --ink:#17211b; --ink-2:#3d4843; --muted:#6b746d; --line:#e3e7e0; --line-2:#d5dad2; --amber:#a55a09; --amber-soft:#fbf1e1; --wa:#1ea861; --shadow-sm:0 1px 2px rgba(18,32,24,.06); --shadow-md:0 8px 24px -14px rgba(18,32,24,.3); min-height:100vh; background:var(--bg); color:var(--ink); font-family:Hanken Grotesk,system-ui,sans-serif; position:relative;';
@@ -121,9 +121,7 @@ export default function PublicBooking() {
       <nav style={css('position:sticky; top:0; z-index:60; background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--line);')}>
         <div style={css('max-width:1080px; margin:0 auto; padding:0 clamp(16px,4vw,32px); height:62px; display:flex; align-items:center; justify-content:space-between; gap:16px;')}>
           <div style={css('display:flex; align-items:center; gap:11px;')}>
-            <div style={css('width:36px; height:36px; border-radius:9px; background:var(--brand); display:flex; align-items:center; justify-content:center;')}>
-              <Raw html='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8e642" stroke-width="2.3"><path d="M4 19V8a8 8 0 0 1 16 0v11"/><path d="M2 19h20" stroke-linecap="round"/></svg>' />
-            </div>
+            <img src="/assets/dugout-logo.png" alt="Dugout Turf Arena" style={css('width:36px; height:36px; border-radius:9px; object-fit:contain;')} />
             <div style={{ lineHeight: 1 }}>
               <div style={css('font-weight:800; font-size:16.5px; letter-spacing:-.02em;')}>{BRAND}</div>
               <div style={css('font-size:10.5px; font-weight:700; color:var(--brand-deep); margin-top:2px;')}>Open 24 × 7</div>
@@ -137,6 +135,10 @@ export default function PublicBooking() {
       </nav>
 
       {screen === 'booking' && (
+        <>
+        <div style={css('width:100%; overflow:hidden; max-height:420px;')}>
+          <img src="/assets/dugout-hero.jpeg" alt="Dugout Turf Arena" style={css('width:100%; height:420px; object-fit:cover; display:block;')} />
+        </div>
         <div style={css('max-width:1080px; margin:0 auto; padding:clamp(20px,3vw,30px) clamp(16px,4vw,32px) 150px;')}>
           {/* PROFILE */}
           <div style={css('display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px;')}>
@@ -147,8 +149,6 @@ export default function PublicBooking() {
               </div>
               <div style={css('display:flex; align-items:center; gap:9px; margin-top:7px; font-size:13.5px; font-weight:500; color:var(--muted); flex-wrap:wrap;')}>
                 <span>Cricket · Football turf</span>
-                <span style={css('color:var(--line-2);')}>·</span>
-                <span style={css('color:var(--ink-2); font-weight:600;')}>The Box Hitting Challenge · 666 &amp; 1 hour free</span>
               </div>
             </div>
           </div>
@@ -266,6 +266,7 @@ export default function PublicBooking() {
             </div>
           )}
         </div>
+        </>
       )}
 
       {screen === 'checkout' && (
