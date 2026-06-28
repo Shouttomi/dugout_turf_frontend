@@ -76,8 +76,34 @@ export default function OwnerConsole() {
   const [wk, setWk] = useState({ groundId: null, slots: {}, name: '', phone: '', pay: 'cash' });
   // demo
   const [demoOpen, setDemoOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loginPhone, setLoginPhone] = useState('');
+  const [loginPass, setLoginPass] = useState('');
+  const [loginErr, setLoginErr] = useState(null);
+  const loginPhoneRef = useRef('');
+  const loginPassRef = useRef('');
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    setMounted(true);
+    try { if (sessionStorage.getItem('dugout_owner_auth') === 'ok') setLoggedIn(true); } catch(e) {}
+  }, []);
+
+  const doLogin = () => {
+    const phone = loginPhoneRef.current.replace(/\D/g, '');
+    const pass  = loginPassRef.current.trim();
+    if (phone === '8000986401' && pass === 'dugout1234') {
+      try { sessionStorage.setItem('dugout_owner_auth', 'ok'); } catch(e) {}
+      setLoggedIn(true); setLoginErr(null);
+    } else {
+      setLoginErr('Wrong phone number or password. Please try again.');
+    }
+  };
+  const doLogout = () => {
+    try { sessionStorage.removeItem('dugout_owner_auth'); } catch(e) {}
+    setLoggedIn(false); setLoginPhone(''); setLoginPass('');
+    loginPhoneRef.current = ''; loginPassRef.current = '';
+  };
 
   useEffect(() => { const r = () => setVw(window.innerWidth); r(); window.addEventListener('resize', r); return () => window.removeEventListener('resize', r); }, []);
   const isMobile = vw < 860;
@@ -141,6 +167,31 @@ export default function OwnerConsole() {
   };
 
   if (!mounted) return <div style={css(ROOT_VARS)} />;
+
+  if (!loggedIn) return (
+    <div style={css('min-height:100vh; background:linear-gradient(145deg,#0d1c12 0%,#14361f 60%,#0d1c12 100%); display:flex; align-items:center; justify-content:center; padding:24px; font-family:Plus Jakarta Sans,system-ui,sans-serif; -webkit-font-smoothing:antialiased;')}>
+      <div style={css('width:100%; max-width:400px;')}>
+        <div style={css('text-align:center; margin-bottom:32px;')}>
+          <img src="/assets/dugout-logo.png" alt="Dugout Turf Arena" style={css('width:min(220px,70%); display:inline-block;')} />
+          <div style={css('font-size:11px; font-weight:800; color:rgba(255,255,255,.45); letter-spacing:.18em; text-transform:uppercase; margin-top:10px;')}>Owner Console</div>
+        </div>
+        <div style={css('background:#fff; border-radius:20px; padding:28px 26px; box-shadow:0 30px 60px -20px rgba(0,0,0,.6);')}>
+          <h2 style={css('font-family:Outfit; font-weight:900; font-size:22px; margin:0 0 6px;')}>Welcome back</h2>
+          <p style={css('font-size:13px; color:#5d6d62; font-weight:600; margin:0 0 24px;')}>Sign in to manage your bookings and grounds.</p>
+          <label style={css('display:block; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#5d6d62; margin-bottom:7px;')}>Phone number</label>
+          <div style={css('position:relative; margin-bottom:16px;')}>
+            <span style={css('position:absolute; left:13px; top:50%; transform:translateY(-50%); font-weight:700; font-size:14px; color:#5d6d62;')}>+91</span>
+            <input value={loginPhone} onChange={(e) => { const v=e.target.value.replace(/\D/g,''); loginPhoneRef.current=v; setLoginPhone(v); setLoginErr(null); }} onKeyDown={(e) => e.key==='Enter' && doLogin()} placeholder="10-digit mobile number" inputMode="tel" style={css('width:100%; border:1px solid #e4ebdd; background:#f6f9f1; border-radius:10px; padding:12px 14px 12px 46px; font-family:inherit; font-size:15px; font-weight:600; color:#0d1c12; outline:none; box-sizing:border-box;')} />
+          </div>
+          <label style={css('display:block; font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#5d6d62; margin-bottom:7px;')}>Password</label>
+          <input value={loginPass} onChange={(e) => { loginPassRef.current=e.target.value; setLoginPass(e.target.value); setLoginErr(null); }} onKeyDown={(e) => e.key==='Enter' && doLogin()} type="password" placeholder="Enter password" style={css('width:100%; border:1px solid #e4ebdd; background:#f6f9f1; border-radius:10px; padding:12px 14px; font-family:inherit; font-size:15px; font-weight:600; color:#0d1c12; outline:none; margin-bottom:16px; box-sizing:border-box;')} />
+          {loginErr && <div style={css('background:#fceef1; border:1px solid #f3c2cd; border-radius:10px; padding:11px 14px; font-size:13px; font-weight:700; color:#e11d48; margin-bottom:16px;')}>{loginErr}</div>}
+          <button onClick={doLogin} style={css('cursor:pointer; width:100%; border:none; background:linear-gradient(145deg,#15a34a,#0e7a36); color:#fff; font-family:Outfit; font-weight:800; font-size:15.5px; padding:14px; border-radius:12px; box-shadow:0 12px 24px -10px #15a34a;')}>Sign in</button>
+        </div>
+        <p style={css('text-align:center; font-size:12px; color:rgba(255,255,255,.3); font-weight:600; margin-top:18px;')}>Dugout Turf Arena · Owner access only</p>
+      </div>
+    </div>
+  );
   return (
     <div style={css(ROOT_VARS)}>
       <input ref={ngFileRef} type="file" accept="image/*" onChange={onNgFile} style={{ display: 'none' }} />
@@ -158,6 +209,7 @@ export default function OwnerConsole() {
           <div style={css('border-top:1px solid var(--line); padding-top:14px; margin-top:8px;')}>
             <Hov as="button" onClick={() => setDemoOpen(true)} s="cursor:pointer; width:100%; display:flex; align-items:center; gap:10px; border:1px solid var(--line); background:var(--surface2); color:var(--ink); font-family:inherit; font-weight:700; font-size:12.5px; padding:10px 12px; border-radius:11px; margin-bottom:8px;" hover="background:var(--bg);"><Raw html={svg(['M3 6h18', 'M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6', 'M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'], 16)} />{store.hasDemo() ? 'Clear demo data' : 'Demo data'}</Hov>
             <Hov as="a" href="/" s="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--muted); font-weight:700; font-size:13px; padding:10px 12px; border-radius:11px;" hover="background:var(--surface2); color:var(--ink);"><Raw html={svg(['M15 3h6v6', 'M21 3l-9 9', 'M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5'], 17)} />View public page</Hov>
+          <Hov as="button" onClick={doLogout} s="cursor:pointer; width:100%; display:flex; align-items:center; gap:10px; border:none; background:transparent; color:var(--muted); font-family:inherit; font-weight:700; font-size:13px; padding:10px 12px; border-radius:11px; margin-top:2px;" hover="background:#fceef1; color:var(--rose);"><Raw html={svg(['M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4', 'M16 17l5-5-5-5', 'M21 12H9'], 17)} />Sign out</Hov>
           </div>
         </aside>
       )}
@@ -380,6 +432,8 @@ function Bookings({ bookings, pending, approved, filter, setFilter, groundName, 
 
 /* ---------------- SCHEDULE (slot manager) ---------------- */
 function Schedule({ store, grounds, data, schDateISO, setSchDateISO, findCovering, setDrawerId, setWalkOpen, setWk, flash }) {
+  const todayISO = dateList()[0].iso;
+  const nowHour = new Date().getHours();
   const cellBase = 'min-width:0; text-align:center; line-height:1.15; border-radius:9px; padding:9px 5px;';
   const buildRow = (g, hrs, cnt) => {
     const cells = []; let i = 0;
